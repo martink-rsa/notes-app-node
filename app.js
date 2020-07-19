@@ -18,10 +18,10 @@ yargs.command({
       type: 'string',
     },
   },
-  handler: function(argv) {
+  handler(argv) {
     notes.addNote(argv.title, argv.body);
-    console.log(chalk.inverse('Title:\t'), argv.title);
-    console.log(chalk.inverse('Body:\t'), argv.body);
+    // console.log(chalk.inverse('Title:\t'), argv.title);
+    // console.log(chalk.inverse('Body:\t'), argv.body);
   },
 });
 
@@ -29,8 +29,15 @@ yargs.command({
 yargs.command({
   command: 'remove',
   describe: 'Removes a note',
-  handler: function() {
-    console.log(chalk.yellow('Removing the note'));
+  builder: {
+    title: {
+      describe: 'Note title',
+      demandOption: true, // Demands the key to be required
+      type: 'string', // Sets the data type of the value
+    },
+  },
+  handler(argv) {
+    notes.removeNote(argv.title);
   },
 });
 
@@ -38,8 +45,15 @@ yargs.command({
 yargs.command({
   command: 'read',
   describe: 'Reads a note',
-  handler: function() {
-    console.log(chalk.yellow('Reads a note'));
+  builder: {
+    title: {
+      describe: 'Title of note to read',
+      demandOption: true,
+      type: 'string',
+    },
+  },
+  handler(argv) {
+    notes.readNote(argv.title);
   },
 });
 
@@ -47,8 +61,8 @@ yargs.command({
 yargs.command({
   command: 'list',
   describe: 'Lists the notes',
-  handler: function() {
-    console.log(chalk.yellow('Lists the notes'));
+  handler() {
+    notes.listNotes();
   },
 });
 
