@@ -9,9 +9,14 @@ const addNote = (title, body) => {
   // Add a note to the list of notes
   const notes = loadNotes();
 
-  const duplicateNotes = notes.filter((note) => note.title === title);
+  // Using find here so it will stop as soon as the correct note has been
+  //    found, otherwise it will traverse through the entire array
+  const duplicateNote = notes.find((note) => note.title === title);
 
-  if (duplicateNotes.length === 0) {
+  // Add the Chrome inspect debugger, which is available at: chrome://inspect/#devices
+  // debugger;
+
+  if (!duplicateNote) {
     notes.push({ title, body });
     saveNotes(notes);
     console.log(chalk.inverse.green('Add note:'), 'New note added');
